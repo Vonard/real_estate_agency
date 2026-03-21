@@ -63,3 +63,13 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f'Жалоба от {self.user} на {self.flat}'
+
+class Owner(models.Model):
+    full_name = models.CharField("ФИО владельца", max_length=200)
+    phone_number = models.CharField("Номер владельца", db_index=True, max_length=20)
+    pure_phone = PhoneNumberField(verbose_name="Нормализованный номер владельца", region='RU', null=True, blank=True)
+    flats = models.ManyToManyField('Flat', verbose_name="Квартиры в собственности", related_name='owned_by', blank=True)
+
+    def __str__(self):
+        return self.full_name
+
