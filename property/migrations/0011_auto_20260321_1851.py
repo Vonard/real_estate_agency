@@ -8,8 +8,11 @@ def migrate_owner_to_owners_model(apps, schema_editor):
     flat_objects = Flat.objects.all()
     for flat_object in flat_objects:
         Owner.objects.get_or_create(full_name=flat_object.owner,
-                                    phone_number=flat_object.owners_phonenumber,
-                                    pure_phone=flat_object.owner_pure_phone)
+                                    defaults={
+                                        'phone_number': flat_object.owners_phonenumber,
+                                        'pure_phone': flat_object.owner_pure_phone,
+                                    })
+
 
 
 class Migration(migrations.Migration):
